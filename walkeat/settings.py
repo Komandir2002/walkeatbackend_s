@@ -29,8 +29,22 @@ else:
 
 ALLOWED_HOSTS = ['*']
 
+AUTH_USER_MODEL = "authentication.User"
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+DJOSER = {
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False,
+}
 # Application definition
+
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,10 +54,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'authentication',
     'fit',
     'my_card',
     'profil',
+    'authentication',
+    'djoser',
+    'phonenumber_field',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +94,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'walkeat.wsgi.application'
 
+
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',)
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

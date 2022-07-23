@@ -9,13 +9,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["email", "username", "phone", "password", "password2"]
+        fields = ["email", "username", "password", "password2"]
 
     def save(self, *args, **kwargs):
         user = User(
-            email=self.validated_data["email"],  # Назначаем Email
-            username=self.validated_data["username"],  # Назначаем Логин
-            phone=self.validated_data["phone"],
+            email=self.validated_data["email"],
+            username=self.validated_data["username"],
         )
         password = self.validated_data["password"]
         password2 = self.validated_data["password2"]
@@ -27,22 +26,18 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    phone = serializers.CharField()
     username = serializers.CharField(max_length=255, read_only=True, required=False)
     password = serializers.CharField(max_length=128, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
-        phone = data.get("phone", None)
+        username = data.get("username", None)
         password = data.get("password", None)
-
-        if phone is None:
-            raise serializers.ValidationError("A phone number is required to log in.")
 
         if password is None:
             raise serializers.ValidationError("A password is required to log in.")
 
-        user = authenticate(phone=phone, password=password)
+        user = authenticate(username=username, password=password)
 
         if user is None:
             raise serializers.ValidationError("A user was not found.")
@@ -50,6 +45,6 @@ class LoginSerializer(serializers.Serializer):
         if not user.is_active:
             raise serializers.ValidationError("This user has been deactivated.")
         return {
-            "phone": user.phone,
+            "username": user.phone,
             "token": user.token,
         }

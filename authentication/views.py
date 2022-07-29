@@ -8,6 +8,10 @@ from .serializers import UserRegisterSerializer, LoginSerializer
 from rest_framework.decorators import APIView
 
 
+
+
+
+
 class RegisterUserView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer

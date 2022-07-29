@@ -1,5 +1,3 @@
-
-
 from django.db import migrations, models
 import phonenumber_field.modelfields
 
@@ -22,8 +20,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False, unique=True)),
                 ('username', models.CharField(max_length=50, unique=True)),
                 ('email', models.EmailField(max_length=100, unique=True)),
-
                 ('phone', phonenumber_field.modelfields.PhoneNumberField(max_length=128, null=True, region=None, unique=True)),
+
 
                 ('is_active', models.BooleanField(default=True)),
                 ('is_staff', models.BooleanField(default=False)),

@@ -1,3 +1,4 @@
+from walkeat import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -5,13 +6,13 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 import jwt
-#from phonenumber_field.modelfields import PhoneNumberField
+from phonenumber_field.modelfields import PhoneNumberField
 from datetime import datetime, timedelta
-from walkeat import settings
+
 
 
 class MyUserManager(BaseUserManager):
-    def _create_user(self, email, username, password, **extra_fields):
+    def _create_user(self, email, phone, username, password, **extra_fields):
         if not email:
             raise ValueError("Вы не ввели Email")
 
@@ -20,12 +21,14 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
+            phone=phone,
             **extra_fields,
         )
         if user.is_superuser:
             self.model(
                 email=self.normalize_email(email),
                 username=username,
+                phone=username,
                 **extra_fields,
             )
             user.set_password(password)
@@ -36,23 +39,27 @@ class MyUserManager(BaseUserManager):
 
         return user
 
-    def create_user(self, email, username, password):
-        return self._create_user(email, username, password)
+    def create_user(self, email, phone, username, password):
+        return self._create_user(email, phone, username, password)
 
-    def create_superuser(self, email, username, password):
-        if User.is_superuser:
-            return self._create_user(email, username, password, is_staff=True, is_superuser=True)
+    def create_superuser(self, email, username, password, phone = None):
+            return self._create_user(email, phone, username, password,is_staff=True, is_superuser=True)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, unique=True)
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
+    phone = PhoneNumberField(unique=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    USERNAME_FIELD = "phone"
+    REQUIRED_FIELDS = ["email", "username"]
+    if is_staff:
+        USERNAME_FIELD = "username"
+        REQUIRED_FIELDS = ["email", "phone"]
+
 
     objects = MyUserManager()
 

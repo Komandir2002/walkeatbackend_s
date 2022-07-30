@@ -1,16 +1,13 @@
-FROM python:3
+FROM python:3.10.4
 
-RUN apt-get update
+RUN mkdir -p /opt/services/walkeat
+WORKDIR /opt/services/walkeat
 
-COPY requirements.txt requirements.txt
-RUN python -m pip install --upgrade pip
+RUN mkdir -p /opt/services/walkeat/requirements
+
+ADD requirements.txt /opt/services/walkeat/
+
+COPY . /opt/services/walkeat/
+
 RUN pip install -r requirements.txt
-
-COPY . .
-
-WORKDIR /app
-
-
-ADD . /app
-
 

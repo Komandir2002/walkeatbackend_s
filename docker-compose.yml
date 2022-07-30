@@ -22,8 +22,9 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/app
-      - ./static:/static
+      - .:/opt/services/walkeat
+      - ./static:/opt/services/walkeat/src/static
+      - ./media:/opt/services/walkeat/src/media
     ports:
       - "8080:8080"
     depends_on:
@@ -32,13 +33,3 @@ services:
       - db_walkeat
 volumes:
   postgres_data:
-
-#version: '3'
-#
-#services:
-#  web:
-#
-#    build: .
-#    command: python manage.py runserver 0.0.0.0:8000
-#    ports:
-#      - "8000:8000"

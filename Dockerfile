@@ -10,4 +10,3 @@ ADD requirements.txt /opt/services/walkeat/
 COPY . /opt/services/walkeat/
 
 RUN pip install -r requirements.txt
-

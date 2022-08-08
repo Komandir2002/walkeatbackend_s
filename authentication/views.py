@@ -1,9 +1,11 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from django.contrib.auth import authenticate
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from .models import User
-from .serializers import UserRegisterSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer
 
 from rest_framework.decorators import APIView
 
@@ -12,36 +14,43 @@ from rest_framework.decorators import APIView
 
 
 
-class RegisterUserView(CreateAPIView):
+class UserViewSet(ModelViewSet):
+    permission_classes = [AllowAny,]
+    serializer_class = UserSerializer
     queryset = User.objects.all()
-    serializer_class = UserRegisterSerializer
-    permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
-        serializer = UserRegisterSerializer(data=request.data)
-
-        # data = {}
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                data={"status": "User register successfully"},
-                status=status.HTTP_201_CREATED,
-            )
-        else:
-            data = serializer.errors
-            return Response(data)
 
 
 class LoginAPIView(APIView):
-    permission_classes = (AllowAny,)
-    serializer_class = LoginSerializer
-    # renderer_classes = (UserJSONRenderer,)
+    permission_classes = [AllowAny,]
     def post(self, request):
-        data = {"error": status.HTTP_400_BAD_REQUEST}
-        user = request.data.get("user", {})
-        serializer = self.serializer_class(data=user)
-        serializer.is_valid(raise_exception=True)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(data)
+        try:
+            data = request.data
+            serializer = LoginSerializer(data=data)
+            if serializer.is_valid():
+                username = serializer.data["phone"]
+                password = serializer.data["password"]
+                user = authenticate(username=username, password=password)
+                if user is None:
+                    data = "User not found"
+                    return Response(
+                        status=status.HTTP_400_BAD_REQUEST, data={"status": data}
+                    )
+
+                refresh = RefreshToken.for_user(user)
+                access = AccessToken.for_user(user)
+
+                return Response(
+                    {
+                        "status": status.HTTP_200_OK,
+                        "user": user.username,
+                        "refresh": str(refresh),
+                        "access": str(access),
+                    }
+                )
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+

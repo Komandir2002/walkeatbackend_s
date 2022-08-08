@@ -56,10 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "phone"
     REQUIRED_FIELDS = ["email", "username"]
-    if is_staff:
-        USERNAME_FIELD = "username"
-        REQUIRED_FIELDS = ["email", "phone"]
-
+    # if is_staff:
+    #     USERNAME_FIELD = "username"
+    #     REQUIRED_FIELDS = ["email", "phone"]
+    #
 
     objects = MyUserManager()
 

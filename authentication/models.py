@@ -12,6 +12,8 @@ import jwt
 from phonenumber_field.modelfields import PhoneNumberField
 from datetime import datetime, timedelta
 from walkeat import settings
+
+
 class MyUserManager(BaseUserManager):
     def _create_user(self, email, username, password, phone, **extra_fields):
         if not email:
@@ -37,14 +39,18 @@ class MyUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+
     def create_user(self, email, username, phone, password):
         return self._create_user(email, username, phone, password)
+
     def create_superuser(self, email, username, password, phone=None):
         if User.is_superuser:
             phone = username
         return self._create_user(
             email, username, password, phone, is_staff=True, is_superuser=True
         )
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, unique=True)
     username = models.CharField(max_length=50, unique=True)
@@ -60,11 +66,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     #
 
     objects = MyUserManager()
+
     def __str__(self):
         return self.email
+
     @property
     def token(self):
         return self._generate_jwt_token()
+
     def _generate_jwt_token(self):
         dt = datetime.now() + timedelta(days=1)
         token = jwt.encode(

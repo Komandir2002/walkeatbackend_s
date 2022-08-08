@@ -1,44 +1,35 @@
-#version: "3.3"
-#
-#services:
-#  db:
-#    image: postgres:latest
-#    container_name: db
-#    environment:
-#      POSTGRES_DB: ${DB_NAME}
-#      POSTGRES_USER: ${DB_USER}
-#      POSTGRES_PASSWORD: ${DB_PASSWORD}
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#
-#  back:
-#    container_name: back
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    restart: always
-#    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic
-#        --no-input && gunicorn -b 0.0.0.0:8080 walkeat.wsgi --reload"
-#    env_file:
-#      - .env
-#    volumes:
-#      - .:/app
-#      - ./static:/static
-#    ports:
-#      - "8012:8012"
-#    depends_on:
-#      - db
-#    links:
-#      - db
-#volumes:
-#  postgres_data:
-
-version: '3'
+version: "3.3"
 
 services:
-  web:
+  db_walkeat:
+    image: postgres:latest
+    container_name: db_walkeat
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+  back_walkeat:
+    container_name: back_walkeat
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic
+        --no-input && gunicorn -b 0.0.0.0:8080 walkeat.wsgi --reload"
+    env_file:
+      - .env
+    volumes:
+      - .:/opt/services/walkeat
+      - ./static:/opt/services/walkeat/src/static
+      - ./media:/opt/services/walkeat/src/media
     ports:
-      - "8000:8000"
+      - "8080:8080"
+    depends_on:
+      - db_walkeat
+    links:
+      - db_walkeat
+volumes:
+  postgres_data:

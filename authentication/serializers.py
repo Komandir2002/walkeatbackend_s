@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import User
-
 from django.contrib.auth import authenticate
 
 
@@ -18,9 +17,9 @@ class UserSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+
         return user
-
-
+        
 class LoginSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=30)
     password = serializers.CharField()

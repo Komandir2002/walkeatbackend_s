@@ -1,4 +1,8 @@
-from django.db import models
+
+                username = serializer.data["phone"]
+            return Response(serializer.data, status=status.HTTP_200_OK)
+                password = serializer.data["password"]
+        else:from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -49,7 +53,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = "phone"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ["email", "username"]
+    # if is_staff:
+    #     USERNAME_FIELD = "username"
+    #     REQUIRED_FIELDS = ["email", "phone"]
+    #
+
     objects = MyUserManager()
     def __str__(self):
         return self.email

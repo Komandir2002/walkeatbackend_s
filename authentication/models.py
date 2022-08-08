@@ -1,8 +1,4 @@
-
-                username = serializer.data["phone"]
-            return Response(serializer.data, status=status.HTTP_200_OK)
-                password = serializer.data["password"]
-        else:from django.db import models
+from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,

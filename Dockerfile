@@ -1,12 +1,11 @@
-FROM python:3.10.4
+FROM python:3
 
-RUN mkdir -p /opt/services/walkeat
-WORKDIR /opt/services/walkeat
+RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean
+RUN mkdir /site
+COPY . /site/
+WORKDIR /site
 
-RUN mkdir -p /opt/services/walkeat/requirements
-
-ADD requirements.txt /opt/services/walkeat/
-
-COPY . /opt/services/walkeat/
-
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install django
+ENTRYPOINT ["python","manage.py"]
+CMD ["runserver","0.0.0.0:8080"]

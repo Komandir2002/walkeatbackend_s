@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import User
-from django.contrib.auth import authenticate
 
 
 class UserSerializer(serializers.Serializer):
@@ -19,7 +18,50 @@ class UserSerializer(serializers.Serializer):
         user = User.objects.create_user(**validated_data)
 
         return user
-        
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        max_length=25, min_length=8, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'phone', 'password']
+
+    def validate(self, attrs):
+        email = attrs.get('email', None)
+        phone = attrs.get('phone', None)
+        username = attrs.get('username', None)
+
+        if not username.isalnum():
+            raise serializers.ValidationError(
+                self.default_error_messages)
+        return attrs
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+
+
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+
+    class Meta:
+        model = User
+        fields = ['token']
+
+
 class LoginSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=30)
     password = serializers.CharField()
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(max_length=255)
+    username = serializers.CharField(max_length=30)
+    birthday = serializers.DateField()
+    email = serializers.EmailField()
+    phone = serializers.CharField(max_length=15)
+
+    class Meta:
+        model = User
+        fields = ["user", "username", "birthday", "email", "phone", "card"]

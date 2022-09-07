@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic
-        --no-input && gunicorn -b 0.0.0.0:8080 walkeat.wsgi --reload"
+        --no-input && gunicorn -b 0.0.0.0:8003 walkeat.wsgi --reload"
     env_file:
       - .env
     volumes:
@@ -26,7 +26,7 @@ services:
       - ./static:/opt/services/walkeat/src/static
       - ./media:/opt/services/walkeat/src/media
     ports:
-      - "8080:8080"
+      - "8003:8003"
     depends_on:
       - db_walkeat
     links:

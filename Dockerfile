@@ -1,11 +1,13 @@
 FROM python:3.10.4
 
-WORKDIR /back_walkeat
+RUN mkdir -p /opt/services/walkeat
+WORKDIR /opt/services/walkeat
 
-COPY requirements.txt .
+RUN mkdir -p /opt/services/walkeat/requirements
+
+ADD requirements.txt /opt/services/walkeat/
+
+COPY . /opt/services/walkeat/
 
 RUN pip install -r requirements.txt
 
-COPY . .
-
-CMD ['python', 'manage.py', 'runerver']

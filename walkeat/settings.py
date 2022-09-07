@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET')
+SECRET_KEY = config('SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('DEBUG') == 'on':
+if config('DEBUG') == 'on':
     DEBUG = True
 else:
     DEBUG = False
@@ -137,11 +138,11 @@ if not DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ.get('DB_NAME'),
-            'USER': os.environ.get('DB_USER'),
-            'PASSWORD':os.environ.get('DB_PASSWORD'),
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD':config('DB_PASSWORD'),
             'PORT':5432,
-            'HOST':'localhost'
+            'HOST':config('DB_HOST'),
 
         }
     }

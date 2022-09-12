@@ -30,6 +30,7 @@ else:
     DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+APPS = ["menu_api", "user_api"]
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -62,8 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'fit',
-    'my_card',
+    'menu_api',
     'profil',
     'authentication',
     'djoser',

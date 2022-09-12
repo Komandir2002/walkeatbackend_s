@@ -66,7 +66,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             "user",
             "username",
             "photo",
-            "birthday",
             "email",
             "phone",
         ]

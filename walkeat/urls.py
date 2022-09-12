@@ -7,7 +7,8 @@ from . import swagger
 urlpatterns = [
 
     path('admin/', admin.site.urls),
-    path('', include("authentication.urls"))
+    path('', include("authentication.urls")),
+    path('',include('menu_api.urls'))
 ] + swagger.urlpatterns
 
 if settings.DEBUG:

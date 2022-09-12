@@ -6,14 +6,13 @@ from django.contrib.auth import authenticate
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .models import User, Card
+from .models import User
 from .serializers import (
     UserSerializer,
     LoginSerializer,
     EmailVerificationSerializer,
     RegisterSerializer,
     ProfileSerializer,
-    CardSerializer,
 )
 from django.contrib.sites.shortcuts import get_current_site
 from rest_framework.decorators import APIView
@@ -30,11 +29,7 @@ from rest_framework.mixins import ListModelMixin
 from django.shortcuts import get_object_or_404
 
 
-class CardViewSet(ModelViewSet):
-    queryset = Card.objects.all()
-    serializer_class = CardSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
+
 
 
 class RegisterView(GenericAPIView):

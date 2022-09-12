@@ -59,7 +59,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=30)
     email = serializers.EmailField()
     phone = serializers.CharField(max_length=15)
-    user_card = serializers.CharField(max_length=255)
 
     class Meta:
         model = User
@@ -70,7 +69,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             "birthday",
             "email",
             "phone",
-            "user_card",
         ]
 
 

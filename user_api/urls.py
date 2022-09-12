@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import LoginAPIView, RegisterView, VerifyEmail, ProfileViewSet, CardViewSet
+from .views import LoginAPIView, RegisterView, VerifyEmail, ProfileViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (
     TokenObtainSlidingView,
@@ -10,7 +10,6 @@ from rest_framework_simplejwt.views import (
 ROUTER = DefaultRouter()
 ROUTERCARD = DefaultRouter()
 ROUTER.register(r"profile", ProfileViewSet, "profile_api")
-ROUTERCARD.register(r"card", CardViewSet, "card_api")
 
 
 urlpatterns = [

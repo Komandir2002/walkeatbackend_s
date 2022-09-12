@@ -32,7 +32,7 @@ else:
 ALLOWED_HOSTS = ['*']
 APPS = ["menu_api", "user_api"]
 
-AUTH_USER_MODEL = "authentication.User"
+AUTH_USER_MODEL = "user_api.User"
 
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [
@@ -63,14 +63,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'menu_api',
     'profil',
-    'authentication',
     'djoser',
     'phonenumber_field',
     'rest_framework_simplejwt',
     'drf_yasg',
-]
+] + APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

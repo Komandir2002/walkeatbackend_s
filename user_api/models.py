@@ -11,17 +11,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from walkeat import settings
 
 
-# class Card(models.Model):
-#     user = models.OneToOneField(
-#         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_card"
-#     )
-#     cc_number = CardNumberField("card number")
-#     cc_expiry = CardExpiryField("expiration date")
-#     cc_code = SecurityCodeField("security code")
-#
-#     def __str__(self):
-#         return f"{self.cc_number} {self.user} card"
-#
+
 
 class MyUserManager(BaseUserManager):
     def _create_user(self, email, username, password, phone, **extra_fields):
@@ -55,7 +45,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     photo = models.ImageField(
         default="media/avatar.jpeg", upload_to="uploaded_media", blank=True
     )
-    birthday = models.DateField(blank=True, null=True)
     phone = PhoneNumberField(unique=True)
     # card = models.ForeignKey(
     # Card, on_delete=models.CASCADE, null=True, related_name="user_card"

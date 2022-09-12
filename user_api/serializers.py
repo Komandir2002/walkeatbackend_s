@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Card
+from .models import User
 
 
 class UserSerializer(serializers.Serializer):
@@ -57,7 +57,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.CharField(max_length=255)
     photo = serializers.CharField(max_length=255)
     username = serializers.CharField(max_length=30)
-    birthday = serializers.DateField()
     email = serializers.EmailField()
     phone = serializers.CharField(max_length=15)
     user_card = serializers.CharField(max_length=255)
@@ -75,7 +74,4 @@ class ProfileSerializer(serializers.ModelSerializer):
         ]
 
 
-class CardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Card
-        fields = "__all__"
+

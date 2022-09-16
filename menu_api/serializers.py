@@ -37,6 +37,8 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ["user", "get_name_food", "total_price", "updated_at", "created_at"]
 
 class OrderSerializer(serializers.ModelSerializer):
+    # cart_user_id = serializers.CharField(max_length=255, read_only=True)
     class Meta:
         model = Order
         fields = "__all__"
+

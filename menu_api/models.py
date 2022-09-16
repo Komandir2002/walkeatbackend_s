@@ -76,6 +76,3 @@ class Order(models.Model):
     address = models.CharField(max_length=255)
     note = models.CharField(max_length=255, null=True)
 
-
-    def __str__(self):
-        return self.cart

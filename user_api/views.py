@@ -95,9 +95,6 @@ class VerifyEmail(APIView):
 
 
 class LoginAPIView(APIView):
-    permission_classes = [
-        AllowAny,
-    ]
 
     def post(self, request):
         try:
@@ -130,9 +127,6 @@ class LoginAPIView(APIView):
 
 
 class ProfileViewSet(ModelViewSet):
-    permission_classes = [
-        IsAuthenticated,
-    ]
     serializer_class = ProfileSerializer
     queryset = User.objects.all()
     authentication_classes = [JWTAuthentication]

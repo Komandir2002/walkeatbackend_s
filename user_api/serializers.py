@@ -54,7 +54,6 @@ class LoginSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(max_length=255)
     photo = serializers.CharField(max_length=255)
     username = serializers.CharField(max_length=30)
     email = serializers.EmailField()
@@ -63,7 +62,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "user",
             "username",
             "photo",
             "email",

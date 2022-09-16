@@ -16,7 +16,7 @@ ROUTER.register(r"order", OrderViewSet)
 
 urlpatterns = [
     path("", include(ROUTER.urls), name="menu_api"),
-    path("main-menu/", FitMenuView.as_view(), name="main_menu_api"),
-    path("main-menu/categories", CategoryView.as_view(), name="categories_api"),
-    path("menu/", FitListApiView.as_view(), name="detail_fit_api"),
+    path("menu/", FitMenuView.as_view(), name="main_menu_api"),
+    path("categories/", CategoryView.as_view(), name="categories_api"),
+    path("menu-detail/", FitListApiView.as_view(), name="detail_fit_api"),
 ]

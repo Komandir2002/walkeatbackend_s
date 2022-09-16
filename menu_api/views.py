@@ -30,9 +30,6 @@ class FitViewSet(ModelViewSet):
 
 
 class FitListApiView(ListAPIView):
-    permission_classes = [
-        IsAuthenticated,
-    ]
     authentication_classes = [JWTAuthentication]
     serializer_class = FitSerializer
     # pagination_class = FitPagination
@@ -41,9 +38,7 @@ class FitListApiView(ListAPIView):
 
 class FitMenuView(ListAPIView):
     # pagination_class = FitPagination
-    permission_classes = [
-        IsAuthenticated,
-    ]
+
     serializer_class = FitMenuSerializer
     queryset = Fit.objects.all()
     authentication_classes = [
@@ -52,9 +47,7 @@ class FitMenuView(ListAPIView):
 
 
 class CategoryView(ListAPIView):
-    permission_classes = [
-        IsAuthenticated,
-    ]
+
     serializer_class = CategoriesSerializers
     queryset = Category.objects.all()
     authentication_classes = [
@@ -64,16 +57,11 @@ class CategoryView(ListAPIView):
 
 class CartViewSet(ModelViewSet):
     queryset = Cart.objects.all()
-    permission_classes = [
-        IsAuthenticated,
-    ]
+
     serializer_class = CartSerializer
     authentication_classes = JWTAuthentication
 
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
-    permission_classes = [
-        IsAuthenticated,
-    ]
     serializer_class = OrderSerializer
     authentication_classes = JWTAuthentication
